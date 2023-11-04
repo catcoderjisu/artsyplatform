@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background: url(https://ccdn.lezhin.com/v2/comics/5469317090312192/images/wide.jpg?updated=1634099797967&width=632);
 }
 
 .navb {
@@ -15,6 +16,14 @@
     color : black;
     margin: 10px;
     text-decoration: none;
+}
+
+/*div박스 모음*/
+.box {
+    box-allign: center;
+    text-allign: center;
+    border: 2px solid black;
+    display: flex;
 }
 
 @babel/plugin-proposal-private-property-in-object
