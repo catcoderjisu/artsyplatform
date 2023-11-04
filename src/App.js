@@ -1,23 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Nav from './Nav.js';
 
 function App() {
+
+  let data = "Hi from React!";
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Nav />;
+      <h1 style={ { color: 'skyblue' } }>{ data }</h1>
+    Bye Header:(
     </div>
   );
 }
