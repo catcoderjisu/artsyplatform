@@ -1,17 +1,21 @@
+import React from 'react';
 import './App.css';
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Nav from './Nav.js';
+import Main from './components/Main.js';
+import Contact from './components/Contact.js';
 
 function App() {
-
-  let data = "Hi from React!";
-
   return (
-    <div className="App">
-      <Nav />;
-      <h1 style={ { color: 'skyblue' } }>{ data }</h1>
-    Bye Header:(
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Nav />;
+        <Routes>
+          <Route path="/" element={<Main />}/>
+          <Route path="/contact" element={<Contact />}/>
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
