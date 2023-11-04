@@ -4,7 +4,7 @@ function Contact() {
 
   return(
     <div>
-      <h1 style={ { color: 'skyblue' } }>Our Team Notion</h1>
+      <h1 style={ { color: 'red' } }>Our Team Notion</h1>
     </div>
   );
 }

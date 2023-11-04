@@ -1,3 +1,4 @@
+// 메인 페이지!!!!!!
 import React from 'react'
 
 function Main() {
