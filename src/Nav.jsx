@@ -7,7 +7,7 @@ function Nav() {
   <div>
     <div className = "navb">
       <Link className="navMenu" to={'/'}>Main</Link>
-      <Link className="navMenu" to={'/'}>My page</Link>
+      <Link className="navMenu" to={'/login'}>Log in</Link>
       <Link className="navMenu" to={'/contact'}>Contact us</Link>
     </div>
   </div>
