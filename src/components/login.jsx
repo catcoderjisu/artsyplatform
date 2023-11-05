@@ -17,7 +17,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    alert('Hi!');
     // Here you can add your authentication logic, such as sending a request to a server.
     const handleSubmit = async (e) => {
         e.preventDefault();

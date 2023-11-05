@@ -7,10 +7,9 @@ function Main() {
   return(
     <div className="Mainpg">
       <h1 style={ { color: 'black' } }>{ data }</h1>
-      Bye Header:(
-      <div className='box'>
+      <sec className='box'>
         <h1>Hey I'm Joshua from Cali</h1>
-      </div>
+      </sec>
       <div className='box'>
         <h1>Hey I'm Joshua from Cali</h1>
       </div>
