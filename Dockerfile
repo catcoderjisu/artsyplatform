@@ -6,6 +6,7 @@ COPY package.json .
 
 # install dependencies
 RUN npm install
+RUN npm install react-scripts
 RUN npm react-router-dom
 npm install axios
 
