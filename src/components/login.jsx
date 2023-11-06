@@ -1,7 +1,7 @@
 // login page
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import '../App.css'
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -48,11 +48,12 @@ function Login() {
     <div>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="formbox">
           <label>Email:</label>
           <input type="email" value={email} onChange={handleEmailChange} />
         </div>
-        <div>
+
+        <div className='formbox'>
           <label>Password:</label>
           <input type="password" value={password} onChange={handlePasswordChange} />
         </div>

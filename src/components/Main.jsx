@@ -4,16 +4,11 @@ import '../App.css';
 function Main() {
 
   let data = "Hi from React!";
+  
   return(
     <div className="Mainpg">
       <h1 style={ { color: 'black' } }>{ data }</h1>
-      <sec className='box'>
-        <h1>Hey I'm Joshua from Cali</h1>
-      </sec>
-      <div className='box'>
-        <h1>Hey I'm Joshua from Cali</h1>
-      </div>
-      <div className='box'>
+      <div className="seachbar">
         <h1>Hey I'm Joshua from Cali</h1>
       </div>
     </div>

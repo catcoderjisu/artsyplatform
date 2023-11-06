@@ -12,7 +12,7 @@ function Contact() {
       </h1>
       <a href = "https://github.com/Chiiikawa/noName_FE/tree/main">Github</a>
       <br></br>
-      <a href="https://naver.com">Naver.com</a>
+      <a href="https://naver.com">Naver</a>
     </div>
   );
 }
