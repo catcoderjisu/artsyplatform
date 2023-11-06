@@ -41,27 +41,30 @@ function Login() {
 
   const handleSignUpClick = () => {
     // You can add the logic to navigate to the sign-up page or open a sign-up modal here.
+    // eslint-disable-next-line no-restricted-globals
+    window.location.href('./Signup.jsx');
     console.log('Sign Up clicked');
   };
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1>PROJ. NO NAME</h1>
+      <h1>로그인</h1>
       <form onSubmit={handleSubmit}>
         <div className="formbox">
           <label>Email:</label>
           <input type="email" value={email} onChange={handleEmailChange} />
         </div>
-
         <div className='formbox'>
           <label>Password:</label>
           <input type="password" value={password} onChange={handlePasswordChange} />
         </div>
-        <button type="submit">Login</button>
-        <button type="button" onClick={handleSignUpClick}>Sign Up</button>
+        <h3></h3>
+        <button type="submit" className="button01">Login</button>
+        <button type="button" className="button01" onClick={handleSignUpClick}>Sign Up</button>
       </form>
     </div>
-  );
-}
+    );
+};
 
 export default Login;
