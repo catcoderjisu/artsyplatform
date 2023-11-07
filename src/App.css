@@ -19,12 +19,27 @@
     color: white;
     padding: 20px;
     width: 100%;
+    .parent {
+        display: flex;
+    }
+    .child {
+        flex: 1;
+    }
 }
 
 .navMenu {
     color : black;
     margin: 10px;
     text-decoration: none;
+    float: left;
+}
+
+.navMenu_r {
+    color : black;
+    text-decoration: none;
+    float: right;
+    justify-content: end;
+    margin: 10px;
 }
 
 /*div박스 모음*/
@@ -61,6 +76,14 @@
     
 }
 
+.div01 {
+    display: flex;
+}
+
+
+
+
+
 /* 버튼모음 */
 .button01 {
     width: 100px;
@@ -70,6 +93,7 @@
     font-size: 12px;
     box-shadow: 0 4px 16px rgba(0, 50, 50, 0.3);
     border-radius: 20px; 
+    cursor: pointer;
     }
 
 
