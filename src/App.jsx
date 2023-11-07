@@ -8,7 +8,7 @@ import Login from './components/login.jsx';
 import Signup from './components/Signup.jsx';
 import Mypage from './components/mypage.jsx';
 import Profile from './components/profile.jsx'
-import Result from './components/result.jsx'
+import Result from './components/Result.jsx'
 
 function App() {
   return (
