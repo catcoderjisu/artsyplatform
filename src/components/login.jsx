@@ -4,6 +4,12 @@ import axios from 'axios';
 import '../App.css'
 
 function Login() {
+  let isValidUsername = false;
+  let isValidPassword = false;
+  let isValidName = false;
+  let isValidPhone = false;
+  let checkNum = false;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

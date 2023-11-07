@@ -76,10 +76,6 @@
     
 }
 
-.div01 {
-    display: flex;
-}
-
 
 
 
@@ -96,9 +92,15 @@
     cursor: pointer;
     }
 
+.search_engine {
+    display: flex;
+}
+
+
+
+/* 기타요소 모음 */
 
 
 
 
-
-@babel/plugin-proposal-private-property-in-object
+/* @babel/plugin-proposal-private-property-in-object */
