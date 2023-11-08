@@ -3,6 +3,34 @@ import React from 'react';
 import './App.css';
 
 
+// logout function. 임시로 여기에 배치
+function handleLogout() {
+  localStorage.removeItem("access")
+  localStorage.removeItem("refresh")
+  localStorage.removeItem("payload")
+}
+
+
+// localStorage의 access 토큰을 읽어, 로그인했을 시 로그아웃 링크만 출력
+const userMenu = () => {
+  if (localStorage.getItem("access") === null) {
+    return (
+      <>
+        <Link className="navMenu" to={'/login'}>Login</Link>
+        <Link className="navMenu" to={'/signup'}>Sign in</Link>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <Link className="navMenu_r" to={'/profile'}>PROFILE /</Link>
+        <Link className="navMenu_r" onClick={handleLogout}>Logout</Link>
+      </>
+    )
+  }
+}
+
+
 
 function Nav() {
   return (
@@ -13,10 +41,9 @@ function Nav() {
         <Link className="navMenu" to={'/result'}>RESULT /</Link>
         <Link className="navMenu" to={'/contact'}>CONTACT US /</Link>
         <Link className="navMenu" to={'/test'}>Testing /</Link>
-        <Link className="navMenu_r" to={'/profile'}>PROFILE /</Link>
-        <Link className="navMenu_r" to={'/signup'}>LOGOUT /</Link>
-        <Link className="navMenu_r" to={'/login'}>LOGIN /</Link>
-        <Link className="navMenu_r" to={'/signup'}>SIGNUP /</Link>
+        <div>
+          {userMenu()}
+        </div>
       </div>
     </div>
   );
