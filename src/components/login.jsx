@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../App.css'
 
+const backend_base_url = "http://localhost:8000/"
+
 function Login() {
   let isValidUsername = false;
   let isValidPassword = false;
@@ -28,9 +30,9 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          const response = await axios.post('/api/login', {
-            email,
-            password,
+          const response = await axios.post(`${backend_base_url}/accounts/login`, {
+            "email":email,
+            "password":password,
           });
 
           // Handle the authentication response from the server, e.g., save the token.
