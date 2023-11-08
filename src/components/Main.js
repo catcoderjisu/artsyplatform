@@ -6,7 +6,6 @@ function Main() {
   return(
     <div>
       <h1 style={ { color: 'skyblue' } }>{ data }</h1>
-      Bye Header:(
     </div>
   );
 }
