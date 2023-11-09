@@ -4,9 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css'
 
-// backend_base_url를 로컬로 설정
-const backend_base_url = "http://localhost:8000/"
-
 function Login() {
   let isValidUsername = false;
   let isValidPassword = false;
@@ -17,6 +14,7 @@ function Login() {
   // navigate 선언
   const navigate = useNavigate();
 
+  // email, password 입력 시 화면에 render되도록 useState 사용
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -32,7 +30,8 @@ function Login() {
   async function handleLoginDataSubmit(e) {
     e.preventDefault();
     try {
-      const response = await axios.post(`${backend_base_url}/accounts/login`, {
+      // .env를 바탕으로 backend 상대경로를 지정
+      const response = await axios.post(`${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/login`, {
         email: email,
         password: password
       });
@@ -42,9 +41,8 @@ function Login() {
     }
   }
 
+  // signup page로 이동시키는 함수
   const handleSignUpClick = () => {
-    // You can add the logic to navigate to the sign-up page or open a sign-up modal here.
-    // eslint-disable-next-line no-restricted-globals
     navigate('../signup')
   };
 

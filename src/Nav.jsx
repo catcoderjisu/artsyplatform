@@ -31,7 +31,7 @@ const userMenu = () => {
 }
 
 
-
+// 좌측에 위치할 메뉴들은 기본적으로 출력, 우측에 위치할 userMenu는 조건에 따라 출력
 function Nav() {
   return (
     <div>
@@ -40,10 +40,7 @@ function Nav() {
         <Link className="navMenu" to={'/mypage'}>MYPAGE /</Link>
         <Link className="navMenu" to={'/result'}>RESULT /</Link>
         <Link className="navMenu" to={'/contact'}>CONTACT US /</Link>
-        <Link className="navMenu" to={'/test'}>Testing /</Link>
-        <div>
           {userMenu()}
-        </div>
       </div>
     </div>
   );

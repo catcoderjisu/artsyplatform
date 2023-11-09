@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css'
 
-const backend_base_url = "http://localhost:8000/"
 
 function SignUp() {
 
+  // navigate 선언
+  const navigate = useNavigate();
+
+  // frontend에서 처리할 수 있는 validation-test 변수 선언
   let isValidUsername = false;
   let isValidPassword = false;
   let isValidName = false;
   let isValidPhone = false;
   let checkNum = false;
 
+  // 해당하는 값 입력 시 화면에 render되도록 useState 사용
   const [email, setEmail] = useState('');
   const [username, setUserName] = useState('');
   const [phonenumber, setPhoneNumber] = useState('');
@@ -19,14 +24,8 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [passwordverification, setPasswordVerification] = useState('');
 
-
-
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
   };
 
   const handleUserNameChange = (e) => {
@@ -41,36 +40,43 @@ function SignUp() {
     setHomeAddress(e.target.value);
   };
 
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handlePasswordVerificationChange = (e) => {
+    setPasswordVerification(e.target.value);
+  };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     alert('Hi!');
     // Here you can add your authentication logic, such as sending a request to a server.
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-          const response = await axios.post(`${backend_base_url}/accounts/login`, {
-            "email":email,
-            "password":password,
-          });
+      e.preventDefault();
+      try {
+        // .env를 바탕으로 frontend 상대경로를 지정
+        const response = await axios.post(
+          `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_FRONTEND_PORT}/accounts/login`, {
+          "email": email,
+          "password": password,
+        });
 
-          // Handle the authentication response from the server, e.g., save the token.
-          // You can also perform redirection or other actions based on the response.
+        // Handle the authentication response from the server, e.g., save the token.
+        // You can also perform redirection or other actions based on the response.
 
-          console.log('Authentication successful', response.data);
-        } catch (error) {
-          // Handle authentication errors here, e.g., display an error message.
-          console.error('Authentication failed', error);
-        }
-      };
+        console.log('Authentication successful', response.data);
+      } catch (error) {
+        // Handle authentication errors here, e.g., display an error message.
+        console.error('Authentication failed', error);
+      }
+    };
 
   };
 
   const handleLoginClick = () => {
-    // You can add the logic to navigate to the sign-up page or open a sign-up modal here.
-    // eslint-disable-next-line no-restricted-globals
-    window.location.href('./login.jsx');
-    console.log('Moved to login');
+    navigate('../login')
   };
 
   return (
@@ -105,7 +111,7 @@ function SignUp() {
 
         <div className='formbox'>
           <label>*P.W 확인:</label>
-          <input type="password" value={passwordverification} onChange={handlePasswordChange} />
+          <input type="password" value={passwordverification} onChange={handlePasswordVerificationChange} />
         </div>
 
         <h3>* 표시는 필수 입력 항목입니다.</h3>
