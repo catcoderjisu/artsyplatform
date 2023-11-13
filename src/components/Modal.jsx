@@ -1,4 +1,4 @@
-// modal component입니다.
+// modal component입니다. 제작 중이라 적용 안됨.
 import React from 'react';
 import '../App.css';
 
