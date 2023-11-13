@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css'
@@ -23,6 +23,9 @@ function SignUp() {
   const [homeaddress, setHomeAddress] = useState('');
   const [password, setPassword] = useState('');
   const [passwordverification, setPasswordVerification] = useState('');
+  const [profileimage, setProfileImage] = useState('');
+
+  const imageRef = useRef();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -48,45 +51,85 @@ function SignUp() {
     setPasswordVerification(e.target.value);
   };
 
+  // Signup page 렌더링 시 email input에 포커스가 되도록 useRef, useEffect를 사용
+  const emailInputRef = useRef();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Hi!');
-    // Here you can add your authentication logic, such as sending a request to a server.
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        // .env를 바탕으로 frontend 상대경로를 지정
-        const response = await axios.post(
-          `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_FRONTEND_PORT}/accounts/login`, {
-          "email": email,
-          "password": password,
-        });
+  // re-render가 될 시 실행되는 경우 방지를 위해 빈 배열을 넣음
+  useEffect(() => {
+    emailInputRef.current.focus();
+  }, [])
 
-        // Handle the authentication response from the server, e.g., save the token.
-        // You can also perform redirection or other actions based on the response.
-
-        console.log('Authentication successful', response.data);
-      } catch (error) {
-        // Handle authentication errors here, e.g., display an error message.
-        console.error('Authentication failed', error);
-      }
+  // 이미지 업로드 input의 onChange
+  const saveImageFile = () => {
+    const file = imageRef.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setProfileImage(reader.result);
     };
-
   };
+
+  async function handleSignupDataSubmit(e) {
+    // submit으로 인한 page reload를 방지하기 위해 preventDefault 사용
+    e.preventDefault();
+    try {
+      const formData = new FormData()
+      formData.append("profileimage", imageRef[0]) //files[0] === upload file
+      // .env를 바탕으로 backend 상대경로를 지정해 송신
+      const value = [{
+        email: email,
+        username: username,
+        phonenumber: phonenumber,
+        homeaddress: homeaddress,
+        password: password,
+        passwordverification: passwordverification
+      }]
+      // Blob을 사용하여 object인 value를 json으로 변환 후, json option 지정 후 blob이라는 변수에 반환 
+      const blob = new Blob([JSON.stringify(value)], { type: "application/json" })
+
+      formData.append("profilecontent", blob) // 또는  formData.append("data", JSON.stringify(value)); // JSON 형식으로 파싱.(백엔드의 요청에 따라 전송방식이 달라진다.)
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',  // 데이터 형식 지정
+          // access_token: access_token,  // Signup 시에는 access_token을 받지 않음.
+        },
+      };
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/signup/`,
+        formData, // data 전송시에 반드시 생성되어 있는 formData 객체만 전송 하여야 한다.
+        config
+      )
+      console.log('Signup 진행 중:', response.data);
+    } catch (error) {
+      console.error('Authentication failed', error);
+    }
+  }
 
   const handleLoginClick = () => {
     navigate('../login')
   };
 
+  // profile 이미지와 
   return (
     <div>
       <h1>PROJ. NO NAME</h1>
       <h1>회원가입</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSignupDataSubmit}>
+        <div>
+          <label className="signup-profileImg-label" htmlFor="profileImg">프로필 이미지 추가</label>
+          <input
+            className="signup-profileImg-input"
+            type="file"
+            accept="image/*"
+            id="profileImg"
+            onChange={saveImageFile}
+            ref = {imageRef}
+          />
+        </div>
         <div className="formbox">
           <label>*Email:</label>
-          <input type="email" value={email} onChange={handleEmailChange} />
+          <input type="email" value={email} onChange={handleEmailChange} ref={emailInputRef}/>
         </div>
 
         <div className="formbox">

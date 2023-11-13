@@ -1,5 +1,5 @@
 // login page
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css'
@@ -10,6 +10,14 @@ function Login() {
   let isValidName = false;
   let isValidPhone = false;
   let checkNum = false;
+
+  // login page 렌더링 시 email input에 포커스가 되도록 useRef, useEffect를 사용
+  const emailInputRef = useRef();
+
+  // re-render가 될 시 실행되는 경우 방지를 위해 빈 배열을 넣음
+  useEffect(() => {
+    emailInputRef.current.focus();
+  }, [])
 
   // navigate 선언
   const navigate = useNavigate();
@@ -28,10 +36,11 @@ function Login() {
 
   // 로그인 request를 서버로 보내는 함수
   async function handleLoginDataSubmit(e) {
+    // submit으로 인한 page reload를 방지하기 위해 preventDefault 사용
     e.preventDefault();
     try {
-      // .env를 바탕으로 backend 상대경로를 지정
-      const response = await axios.post(`${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/login`, {
+      // .env를 바탕으로 backend 상대경로를 지정해 송신
+      const response = await axios.post(`${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/token/`, {
         email: email,
         password: password
       });
@@ -53,7 +62,7 @@ function Login() {
       <form onSubmit={handleLoginDataSubmit}>
         <div className="formbox">
           <label>Email:</label>
-          <input type="email" value={email} onChange={handleEmailChange} />
+          <input type="email" value={email} onChange={handleEmailChange} ref={emailInputRef}/>
         </div>
         <div className='formbox'>
           <label>Password:</label>
