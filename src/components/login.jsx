@@ -23,8 +23,8 @@ function Login() {
   const navigate = useNavigate();
 
   // email, password 입력 시 화면에 render되도록 useState 사용
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -38,21 +38,29 @@ function Login() {
   async function handleLoginDataSubmit(e) {
     // submit으로 인한 page reload를 방지하기 위해 preventDefault 사용
     e.preventDefault();
+    console.log("email:", email);
+    console.log("password:", password);
+    console.log(
+      `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/token/`,
+    );
     try {
-      // .env를 바탕으로 backend 상대경로를 지정해 송신
-      const response = await axios.post(`${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/token/`, {
-        email: email,
-        password: password
-      });
-      console.log('Login 진행 중:', response.data);
+      // .env를 바탕으로 backend 상대경로를 지정
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/token/`,
+        {
+          email: email,
+          password: password,
+        },
+      );
+      console.log("Login 진행 중:", response.data);
     } catch (error) {
-      console.error('Authentication failed', error);
+      console.error("Authentication failed", error);
     }
   }
 
   // signup page로 이동시키는 함수
   const handleSignUpClick = () => {
-    navigate('../signup')
+    navigate("../signup");
   };
 
   return (
@@ -64,16 +72,24 @@ function Login() {
           <label>Email:</label>
           <input type="email" value={email} onChange={handleEmailChange} ref={emailInputRef}/>
         </div>
-        <div className='formbox'>
+        <div className="formbox">
           <label>Password:</label>
-          <input type="password" value={password} onChange={handlePasswordChange} />
+          <input
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
         </div>
         <h3></h3>
-        <button type="submit" className="button01">Login</button>
-        <button type="button" className="button01" onClick={handleSignUpClick}>Sign Up</button>
+        <button type="submit" className="button01">
+          Login
+        </button>
+        <button type="button" className="button01" onClick={handleSignUpClick}>
+          Sign Up
+        </button>
       </form>
     </div>
-    );
-};
+  );
+}
 
 export default Login;
