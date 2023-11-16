@@ -4,11 +4,13 @@ import '../App.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 function Main() {
   // 다른 페이지로 이동할 수 있도록 navigate 선언
   const navigate = useNavigate();
   // searchbar 입력값 state 설정
-  const [searchbarInput, setSearchbarInput] = useState("here is our searchbar")
+  const [searchbarInput, setSearchbarInput] = useState("here is our searchbar");
+  const [postlist, setPostList] = useState([]);
 
   const handleSearchbarInputChange = (e) => {
     setSearchbarInput(e.target.value);
@@ -21,44 +23,70 @@ function Main() {
     searchbarInputRef.current.focus();
   }, [])
 
-
-  // 서버에서 post를 조회하는 함수
-  async function renderPostsIamges(e) {
-    // 
-    try {
-      // .env를 바탕으로 backend 상대경로를 지정
-      const response = await axios.get(
-        `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/`
-        );
-      if (response) {
-        console.log("post를 모두 불러오는 중...");
-        // post 이미지를 최신순으로 정렬하는 함수 실행
-      }
-    } catch (error) {
-      console.error("Authentication failed", error);
-    }
-  }
-
   // 화면이 렌더링 되자마자 readImages 실행.
-  useEffect(() => {
-    renderPostsIamges();
-  }, [])
-  
+  // useEffect(() => {
+  //   renderPostsIamges();
+  // }, [])
+
   // result page로 이동시키는 함수
   const handleResultPageClick = () => {
     navigate('../result')
   };
 
+  // 서버에서 post를 조회하는 함수
+  async function requestPostsImages() {
+    try {
+      // .env를 바탕으로 backend 상대경로를 지정. Query string을 사용하여 최신순으로 정렬
+      const response = await axios.get(
+        `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/post?_sort=id&_order=desc`, {
+        headers: { Authorization: "Bearer " + localStorage.getItem("access") },
+      }
+      );
+      if (response) {
+        console.log("post를 모두 불러오는 중...");
+        const temporarydata = [{
+          id: 1, 
+          content: '시험용',
+          img : "https://blog.kakaocdn.net/dn/cfRQ5l/btqXDfey4e0/BAWW5ikLa23SsaFNJ903B0/img.png"
+        },
+        {
+          id: 2, 
+          content: '시험용2',
+          img : "https://blog.kakaocdn.net/dn/cfRQ5l/btqXDfey4e0/BAWW5ikLa23SsaFNJ903B0/img.png"
+        }
+      ]
+        // setPostList(response.data);
+        setPostList(temporarydata)
+      }
+    } catch (error) {
+      console.error("Authentication failed", error);
+      let defaultpostlist = [{
+        id: 0,
+        image: "이미지없음",
+        content: "요청하신 post가 없습니다."
+      },]
+      setPostList(defaultpostlist);
+    }
+  }
 
-  return(
+
+
+  return (
     <div className="Mainpg">
       <ul id="search_engine">
         <input className="searchbar" value={searchbarInput} onChange={handleSearchbarInputChange} ref={searchbarInputRef} />
-        <button type="button" className="button01" onClick={handleResultPageClick}>
-          Create!!
-        </button>
       </ul>
-
+      <button type="button" className="button01" onClick={handleResultPageClick}>Create!!</button>
+      <button type="button" className="button01" onClick={requestPostsImages}>Post data 요청하기</button>
+      {postings.map((posts) => {
+        return (
+          <div key={posts.id}>
+            <div>{posts.image}</div>
+            <div>ID: {posts.id}</div>
+          <span>{posts.content}</span>
+          </div>
+        );
+      })}
     </div>
   );
 }
