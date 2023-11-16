@@ -116,7 +116,7 @@ function SignUp() {
       <h1>PROJ. NO NAME</h1>
       <h1>회원가입</h1>
       <form onSubmit={handleSignupDataSubmit}>
-        <div>
+        <div className='box'>
           <label className="signup-profileImg-label" htmlFor="profileImg">프로필 이미지 추가</label>
           <input
             className="signup-profileImg-input"

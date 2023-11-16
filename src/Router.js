@@ -1,14 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Main from './components/Main.jsx';
-import Contact from './components/Contact.jsx';
-import Login from './components/login.jsx';
-import Signup from './components/Signup.jsx';
+import Main from './pages/Main.jsx';
+import Contact from './pages/Contact.jsx';
+import Login from './pages/Login.jsx';
+import Signup from './pages/Signup.jsx';
 import Mypage from './components/mypage.jsx';
-import Profile from './components/profile.jsx';
-import Result from './components/result.jsx';
+import Profile from './pages/Profile.jsx';
+import Result from './pages/Result.jsx';
 import Layout from './Layout.jsx';
+import Profiles from './pages/Profiles.jsx';
 
 
 
@@ -26,6 +27,7 @@ const Router = () => {
                         <Route path="/mypage" element={<Mypage />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/result" element={<Result />} />
+                        <Route path="/profile/:id" element={<Profiles />} />
                     </Routes>
                 </Layout>
             </BrowserRouter>

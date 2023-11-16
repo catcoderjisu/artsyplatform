@@ -33,6 +33,7 @@ const userMenu = () => {
 
 // 좌측에 위치할 메뉴들은 기본적으로 출력, 우측에 위치할 userMenu는 조건에 따라 출력
 function Layout({ children }) {
+  // Router.js의 Route를 children으로 받아, 상단 Navbar, 중단 페이지, 하단 footer 구조를 만듦.
   return (
     <div>
       <div className="navb">
