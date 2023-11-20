@@ -42,12 +42,16 @@
     margin-left: auto;
 }
 
-/*div박스 모음*/
-.box {
+
+.largebox {
     text-align: center;
-    box-align: center;
+    justify-content: center;
     border: 2px solid black;
     display: flex;
+    background-color: white;
+    width: 300px;
+    height: 200px;
+    margin-right: auto;
 }
 
 .searchbar {

@@ -28,10 +28,6 @@ function Main() {
   //   renderPostsIamges();
   // }, [])
 
-  // result page로 이동시키는 함수. DALL-E 연결 시 backend에 post를 보내는 부분 추가 작성 필요.
-  const handleResultPageClick = () => {
-    navigate('../result')
-  };
 
   // 서버에서 post를 조회하는 함수
   async function requestPostsImages() {
@@ -40,7 +36,7 @@ function Main() {
       setPostList([]);  // postlist 초기화
       // .env를 바탕으로 backend 상대경로를 지정. Query string을 사용하여 최신순으로 정렬. query string 사용 시 post?_sort=id&_order=desc 넣기
       const response = await axios.get(
-        `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/posts/`, {
+        `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_BACKEND_PORT}/posts/`, {
         headers: { Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN") },
       }
       );
@@ -61,15 +57,32 @@ function Main() {
     }
   }
 
+  // DALL-E에 사용할 prompt를 서버에 전달하는 함수
+  async function createPostImage() {
+    try {
+      setSearchbarInput('');  // prompt 입력값 초기화
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_BACKEND_PORT}/posts/`, {
+        headers: { Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN") }, // 토큰 전달
+      }, 
+      {
+        image: null,
+        prompt: searchbarInput
+      }
+      );
+      navigate('../result')
+    } catch (error) {console.error("Authentication failed", error);}
+  }
+
 
 
   return (
     <div className="Mainpg">
       <input className="searchbar" value={searchbarInput} onChange={handleSearchbarInputChange} ref={searchbarInputRef} />
-      <button type="button" className="button01" onClick={handleResultPageClick}>Create!!</button>
+      <button type="button" className="button01" onClick={createPostImage}>Create!!</button>
       <button type="button" className="button01" onClick={requestPostsImages}>Post data 요청하기</button>
       {postlist.map((posts) => (
-        <Posting key={posts.id} id={posts.id} image={posts.image} content={posts.content} author={posts.author.username}/>
+        <Posting key={posts.id} id={posts.id} image={posts.image} content={posts.content} />
       ))}
     </div>
   );

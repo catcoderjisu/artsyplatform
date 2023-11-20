@@ -6,11 +6,9 @@ import Contact from './pages/Contact.jsx';
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import Mypage from './components/mypage.jsx';
-import Profile from './pages/Profile.jsx';
 import Result from './pages/Result.jsx';
 import Layout from './Layout.jsx';
 import Profiles from './pages/Profiles.jsx';
-
 
 
 // 모든 route를 Layout으로 감싸, 모든 페이지에서 Navbar가 뜨도록 설정
@@ -25,9 +23,9 @@ const Router = () => {
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/signup" element={<Signup />} />
                         <Route path="/mypage" element={<Mypage />} />
-                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/profile" element={<Profiles />} />
                         <Route path="/result" element={<Result />} />
-                        <Route path="/profile/:id" element={<Profiles />} />
+
                     </Routes>
                 </Layout>
             </BrowserRouter>
