@@ -28,7 +28,7 @@ function Main() {
   //   renderPostsIamges();
   // }, [])
 
-  // result page로 이동시키는 함수
+  // result page로 이동시키는 함수. DALL-E 연결 시 backend에 post를 보내는 부분 추가 작성 필요.
   const handleResultPageClick = () => {
     navigate('../result')
   };
@@ -47,7 +47,7 @@ function Main() {
       console.log("response.data:",response.data)
       if (response) {
         console.log("post를 모두 불러오는 중...");
-        setPostList([response.data]);
+        setPostList(response.data);
       }
     } catch (error) {
       console.error("Authentication failed", error);
@@ -65,13 +65,11 @@ function Main() {
 
   return (
     <div className="Mainpg">
-      <ul id="search_engine">
-        <input className="searchbar" value={searchbarInput} onChange={handleSearchbarInputChange} ref={searchbarInputRef} />
-      </ul>
+      <input className="searchbar" value={searchbarInput} onChange={handleSearchbarInputChange} ref={searchbarInputRef} />
       <button type="button" className="button01" onClick={handleResultPageClick}>Create!!</button>
       <button type="button" className="button01" onClick={requestPostsImages}>Post data 요청하기</button>
       {postlist.map((posts) => (
-        <Posting key={posts.id} id={posts.id} image={posts.image} content={posts.content} />
+        <Posting key={posts.id} id={posts.id} image={posts.image} content={posts.content} author={posts.author.username}/>
       ))}
     </div>
   );
