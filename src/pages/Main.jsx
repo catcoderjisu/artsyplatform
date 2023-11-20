@@ -40,7 +40,7 @@ function Main() {
         headers: { Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN") },
       }
       );
-      console.log("response.data:",response.data)
+      console.log("response.data:", response.data)
       if (response) {
         console.log("post를 모두 불러오는 중...");
         setPostList(response.data);
@@ -60,18 +60,27 @@ function Main() {
   // DALL-E에 사용할 prompt를 서버에 전달하는 함수
   async function createPostImage() {
     try {
-      setSearchbarInput('');  // prompt 입력값 초기화
+      console.log('searchbarInput:', searchbarInput)
+      console.log('전달URL:', `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_BACKEND_PORT}/posts/dalle/`)
+      console.log("ACCESS_TOKEN:", localStorage.getItem("ACCESS_TOKEN"))
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_BACKEND_PORT}/posts/`, {
-        headers: { Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN") }, // 토큰 전달
-      }, 
-      {
-        image: null,
-        prompt: searchbarInput
-      }
+        `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_BACKEND_PORT}/posts/dalle/`,
+        {
+          "prompt": searchbarInput
+        },
+        {
+          headers: { Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN") }, // 토큰 전달
+        }
       );
+      console.log("여기까진 됨")
+      if (response) {
+        console.log("이미지 생성 중...")
+        console.log("response.data:", response.data)
+      }
       navigate('../result')
-    } catch (error) {console.error("Authentication failed", error);}
+    } catch (error) { 
+      console.log("생성 실패")
+      console.error("Authentication failed", error); }
   }
 
 
