@@ -59,7 +59,7 @@ function SignUp() {
     emailInputRef.current.focus();
   }, [])
 
-  // 이미지 업로드 input의 onChange
+  // 이미지 업로드 시 바로 확인할 수 있는 함수. 회원가입 이미지 첨부 완료 후 사용 예정. 
   const saveImageFile = () => {
     const file = imageRef.current.files[0];
     const reader = new FileReader();
@@ -72,17 +72,20 @@ function SignUp() {
   async function handleSignupDataSubmit(e) {
     // submit으로 인한 page reload를 방지하기 위해 preventDefault 사용
     e.preventDefault();
+    console.log('여까진됨1')
     try {
       const formData = new FormData()
-      formData.append("profileimage", imageRef[0]) //files[0] === upload file
+      console.log('여까진됨2')
+      formData.append("profile_image", profileimage[0]) //files[0] === upload file
       // .env를 바탕으로 backend 상대경로를 지정해 송신
+      console.log('여까진됨3')
       const value = [{
         email: email,
         username: username,
-        phonenumber: phonenumber,
-        homeaddress: homeaddress,
+        phone_number: phonenumber,
+        address: homeaddress,
         password: password,
-        passwordverification: passwordverification
+        // passwordverification: passwordverification
       }]
       // Blob을 사용하여 object인 value를 json으로 변환 후, json option 지정 후 blob이라는 변수에 반환 
       const blob = new Blob([JSON.stringify(value)], { type: "application/json" })
@@ -96,9 +99,16 @@ function SignUp() {
       };
 
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/signup/`,
-        formData, // data 전송시에 반드시 생성되어 있는 formData 객체만 전송 하여야 한다.
-        config
+        `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/`, 
+        {
+        // formData, // data 전송시에 반드시 생성되어 있는 formData 객체만 전송 하여야 한다.
+        // config
+        email: email,
+        username: username,
+        phone_number: phonenumber,
+        address: homeaddress,
+        password: password,
+      }
       )
       console.log('Signup 진행 중:', response.data);
     } catch (error) {
@@ -116,7 +126,7 @@ function SignUp() {
       <h1>PROJ. NO NAME</h1>
       <h1>회원가입</h1>
       <form onSubmit={handleSignupDataSubmit}>
-        <div className='box'>
+        {/* <div className='box'>
           <label className="signup-profileImg-label" htmlFor="profileImg">프로필 이미지 추가</label>
           <input
             className="signup-profileImg-input"
@@ -126,7 +136,7 @@ function SignUp() {
             onChange={saveImageFile}
             ref = {imageRef}
           />
-        </div>
+        </div> */}
         <div className="formbox">
           <label>*Email:</label>
           <input type="email" value={email} onChange={handleEmailChange} ref={emailInputRef}/>

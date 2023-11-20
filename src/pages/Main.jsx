@@ -36,16 +36,18 @@ function Main() {
   // 서버에서 post를 조회하는 함수
   async function requestPostsImages() {
     try {
+      console.log("ACESS_TOKEN:", localStorage.getItem("ACCESS_TOKEN"));
       setPostList([]);  // postlist 초기화
-      // .env를 바탕으로 backend 상대경로를 지정. Query string을 사용하여 최신순으로 정렬
+      // .env를 바탕으로 backend 상대경로를 지정. Query string을 사용하여 최신순으로 정렬. query string 사용 시 post?_sort=id&_order=desc 넣기
       const response = await axios.get(
-        `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/post?_sort=id&_order=desc`, {
-        headers: { Authorization: "Bearer " + localStorage.getItem("access") },
+        `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/posts/`, {
+        headers: { Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN") },
       }
       );
+      console.log("response.data:",response.data)
       if (response) {
         console.log("post를 모두 불러오는 중...");
-        // setPostList(response.data);
+        setPostList([response.data]);
       }
     } catch (error) {
       console.error("Authentication failed", error);
@@ -69,7 +71,7 @@ function Main() {
       <button type="button" className="button01" onClick={handleResultPageClick}>Create!!</button>
       <button type="button" className="button01" onClick={requestPostsImages}>Post data 요청하기</button>
       {postlist.map((posts) => (
-        <Posting id={posts.id} image={posts.image} content={posts.content} />
+        <Posting key={posts.id} id={posts.id} image={posts.image} content={posts.content} />
       ))}
     </div>
   );
