@@ -5,6 +5,7 @@ import axios from 'axios';
 import '../App.css'
 
 function Login() {
+  // 서버 부담을 줄이기 위해 Front단에서 유효성검사. 아직은 사용 안함.
   let isValidUsername = false;
   let isValidPassword = false;
   let isValidName = false;
@@ -36,25 +37,25 @@ function Login() {
 
   // 로그인 request를 서버로 보내는 함수
   async function handleLoginDataSubmit(e) {
-    // submit으로 인한 page reload를 방지하기 위해 preventDefault 사용
-    e.preventDefault();
-    console.log("email:", email);
-    console.log("password:", password);
-    console.log(
-      `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/token/`,
-    );
+    e.preventDefault(); // submit으로 인한 page reload를 방지하기 위해 preventDefault 사용
+    localStorage.clear(); // 로그인 실행 시, 브라우저 로컬저장소에 있는 값을 모두 날려 충돌 방지 
     try {
       // .env를 바탕으로 backend 상대경로를 지정
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/token/`,
+        `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/token/`,
         {
           email: email,
           password: password,
         },
       );
-      console.log("Login 진행 중:", response.data);
+      if (response) {
+        localStorage.setItem('ACCESS_TOKEN', response.data.access); //access token을 local storage에 저장
+        alert(`로그인 성공! 환영합니다`)
+        navigate("../");  // token 저장 후 Main page로 이동
+        window.location.replace("/")  // navbar 상태를 바꾸기 위해 새로고침
+      }
     } catch (error) {
-      console.error("Authentication failed", error);
+      console.error("Authentication failed", error);  // response를 못받아 error를 띄울 경우 콘솔에 에러 띄우기
     }
   }
 
@@ -65,8 +66,7 @@ function Login() {
 
   return (
     <div>
-      <h1>PROJ. NO NAME</h1>
-      <h1>로그인</h1>
+      <h1>LOGIN</h1>
       <form onSubmit={handleLoginDataSubmit}>
         <div className="formbox">
           <label>Email:</label>
@@ -81,12 +81,8 @@ function Login() {
           />
         </div>
         <h3></h3>
-        <button type="submit" className="button01">
-          Login
-        </button>
-        <button type="button" className="button01" onClick={handleSignUpClick}>
-          Sign Up
-        </button>
+        <button type="submit" className="button01">Login</button>
+        <button type="button" className="button01" onClick={handleSignUpClick}>Sign Up</button>
       </form>
     </div>
   );

@@ -1,15 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Main from './components/Main.jsx';
-import Contact from './components/Contact.jsx';
-import Login from './components/login.jsx';
-import Signup from './components/Signup.jsx';
+import Main from './pages/Main.jsx';
+import Contact from './pages/Contact.jsx';
+import Login from './pages/Login.jsx';
+import Signup from './pages/Signup.jsx';
 import Mypage from './components/mypage.jsx';
-import Profile from './components/profile.jsx';
-import Result from './components/result.jsx';
+import Result from './pages/Result.jsx';
 import Layout from './Layout.jsx';
-
+import Profiles from './pages/Profiles.jsx';
 
 
 // 모든 route를 Layout으로 감싸, 모든 페이지에서 Navbar가 뜨도록 설정
@@ -24,8 +23,9 @@ const Router = () => {
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/signup" element={<Signup />} />
                         <Route path="/mypage" element={<Mypage />} />
-                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/profile" element={<Profiles />} />
                         <Route path="/result" element={<Result />} />
+
                     </Routes>
                 </Layout>
             </BrowserRouter>

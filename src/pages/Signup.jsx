@@ -59,48 +59,37 @@ function SignUp() {
     emailInputRef.current.focus();
   }, [])
 
-  // 이미지 업로드 input의 onChange
-  const saveImageFile = () => {
-    const file = imageRef.current.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setProfileImage(reader.result);
-    };
+  // 이미지 미리보기 함수
+  const encodeFileToBase64  = (fileblob) => {
+    const reader = new FileReader();  // 이미지 업로드 시 Filereader 인스턴스 생성
+    reader.readAsDataURL(fileblob); // 이미지를 base64로 인코딩
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setProfileImage(reader.result); // reader가 incoding 완료 시 reader.result를 profileimage에 넣음
+        resolve();  // resolve를 호출해 Promise를 이행 상태로 변환
+      };
+    });
   };
 
   async function handleSignupDataSubmit(e) {
     // submit으로 인한 page reload를 방지하기 위해 preventDefault 사용
     e.preventDefault();
+    console.log('여까진됨1')
     try {
       const formData = new FormData()
-      formData.append("profileimage", imageRef[0]) //files[0] === upload file
+      console.log('여까진됨2')
+      formData.append("profile_image", profileimage[0]) //files[0] === upload file
       // .env를 바탕으로 backend 상대경로를 지정해 송신
-      const value = [{
-        email: email,
-        username: username,
-        phonenumber: phonenumber,
-        homeaddress: homeaddress,
-        password: password,
-        passwordverification: passwordverification
-      }]
-      // Blob을 사용하여 object인 value를 json으로 변환 후, json option 지정 후 blob이라는 변수에 반환 
-      const blob = new Blob([JSON.stringify(value)], { type: "application/json" })
-
-      formData.append("profilecontent", blob) // 또는  formData.append("data", JSON.stringify(value)); // JSON 형식으로 파싱.(백엔드의 요청에 따라 전송방식이 달라진다.)
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',  // 데이터 형식 지정
-          // access_token: access_token,  // Signup 시에는 access_token을 받지 않음.
-        },
-      };
-
+      console.log('여까진됨3')
+      formData.append("email", email)
+      formData.append("username", username)
+      formData.append("phone_number", phonenumber)
+      formData.append("address", homeaddress)
+      formData.append("password", password)
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVICE_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/signup/`,
-        formData, // data 전송시에 반드시 생성되어 있는 formData 객체만 전송 하여야 한다.
-        config
-      )
+        `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_BACKEND_PORT}/accounts/`, formData)
       console.log('Signup 진행 중:', response.data);
+      navigate('../login')
     } catch (error) {
       console.error('Authentication failed', error);
     }
@@ -110,22 +99,22 @@ function SignUp() {
     navigate('../login')
   };
 
-  // profile 이미지와 
+  // 논리연산자를 사용하여 이미지 업로드 시 조건부 랜더링
   return (
     <div>
       <h1>PROJ. NO NAME</h1>
       <h1>회원가입</h1>
       <form onSubmit={handleSignupDataSubmit}>
-        <div>
-          <label className="signup-profileImg-label" htmlFor="profileImg">프로필 이미지 추가</label>
+        <div className='box'>
           <input
             className="signup-profileImg-input"
             type="file"
             accept="image/*"
-            id="profileImg"
-            onChange={saveImageFile}
-            ref = {imageRef}
+            onChange={(e) => {encodeFileToBase64(e.target.files[0])}}
           />
+      <div className="preview">
+        {profileimage ? <img src={profileimage} alt="preview-img" /> : <img src="../public/apology.jpeg"/>}
+      </div>
         </div>
         <div className="formbox">
           <label>*Email:</label>
